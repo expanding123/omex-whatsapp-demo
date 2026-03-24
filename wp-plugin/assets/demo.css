@@ -1,0 +1,65 @@
+/* OMEX Demo CSS */
+#omex-demo-app { max-width: 660px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #111827; }
+#omex-demo-app * { box-sizing: border-box; }
+.omex-title { font-size: 1.7rem; font-weight: 700; margin: 0 0 .5rem; }
+.omex-sub { color: #6b7280; margin: 0 0 1.75rem; }
+.omex-step { display: none; }
+.omex-active { display: block !important; }
+.omex-field { margin-bottom: 1.2rem; }
+.omex-field label { display: flex; align-items: center; gap: .5rem; font-weight: 500; font-size: .9rem; margin-bottom: .35rem; color: #374151; }
+.omex-field input, .omex-field textarea { width: 100%; padding: .6rem .85rem; border: 1.5px solid #d1d5db; border-radius: 10px; font-size: .95rem; transition: border-color .2s, box-shadow .2s; background: #fff; color: #111827; }
+.omex-field input:focus, .omex-field textarea:focus { outline: none; border-color: #25d366; box-shadow: 0 0 0 3px rgba(37,211,102,.15); }
+.omex-field small { display: block; color: #9ca3af; font-size: .78rem; margin-top: .3rem; }
+.omex-req { color: #ef4444; }
+.omex-scan-badge { font-size: .68rem; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; border-radius: 20px; padding: .12rem .45rem; font-weight: 400; }
+.omex-error { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: .6rem .85rem; color: #dc2626; font-size: .86rem; margin-bottom: 1rem; }
+.omex-btn { display: inline-flex; align-items: center; gap: .45rem; padding: .65rem 1.4rem; border-radius: 10px; font-size: .92rem; font-weight: 600; cursor: pointer; border: none; transition: all .18s; text-decoration: none; }
+.omex-btn-green { background: #25d366; color: #fff; }
+.omex-btn-green:hover { background: #1ebe5a; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(37,211,102,.35); }
+.omex-btn-gray { background: #f3f4f6; color: #374151; }
+.omex-btn-gray:hover { background: #e5e7eb; }
+.omex-btn-ghost { background: transparent; color: #6b7280; text-decoration: underline; padding-left: 0; }
+.omex-btn:disabled { opacity: .6; cursor: not-allowed; transform: none !important; }
+.omex-spin { display: inline-block; width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; animation: omex-spin .65s linear infinite; }
+@keyframes omex-spin { to { transform: rotate(360deg); } }
+.omex-scan-wrap { text-align: center; padding: 3rem 1rem; }
+.omex-scan-icon { font-size: 3rem; animation: omex-pulse 1.4s ease-in-out infinite; margin-bottom: 1rem; }
+@keyframes omex-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+.omex-bar { width: 100%; height: 6px; background: #e5e7eb; border-radius: 99px; overflow: hidden; margin-top: 1.5rem; }
+.omex-bar-fill { height: 100%; background: #25d366; width: 0; transition: width .4s ease; border-radius: 99px; }
+#omex-step-qr h3 { margin: 0 0 1.2rem; font-size: 1.2rem; }
+.omex-qr-wrap { display: flex; gap: 2rem; align-items: flex-start; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.5rem; margin-bottom: 1rem; }
+.omex-qr-box { flex-shrink: 0; }
+#omex-qr-img { width: 190px; height: 190px; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+.omex-qr-steps ol { padding-left: 1.2rem; margin: .5rem 0 0; }
+.omex-qr-steps li { margin-bottom: .45rem; font-size: .88rem; color: #374151; }
+.omex-facts-box { background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 8px; padding: .75rem 1rem; margin-top: 1rem; font-size: .83rem; }
+.omex-facts-box ul { margin: .3rem 0 0; padding-left: 1.1rem; }
+.omex-facts-box li { margin-bottom: .3rem; color: #374151; }
+.omex-ttl { font-size: .82rem; color: #9ca3af; margin-top: .5rem; }
+.omex-ttl strong { color: #374151; }
+.omex-live-header { display: flex; align-items: center; gap: .6rem; margin-bottom: .4rem; }
+.omex-live-header h3 { margin: 0; font-size: 1.15rem; }
+.omex-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 0 3px rgba(34,197,94,.2); animation: omex-dot 2s infinite; flex-shrink: 0; }
+@keyframes omex-dot { 0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.2)} 50%{box-shadow:0 0 0 6px rgba(34,197,94,.05)} }
+.omex-chat { height: 320px; overflow-y: auto; background: #ece5dd; border-radius: 12px; padding: .9rem; margin: .9rem 0; display: flex; flex-direction: column; gap: .45rem; }
+.omex-msg { display: flex; }
+.omex-msg-in { justify-content: flex-start; }
+.omex-msg-out { justify-content: flex-end; }
+.omex-bubble { max-width: 74%; padding: .5rem .75rem; border-radius: 12px; font-size: .875rem; line-height: 1.45; }
+.omex-msg-in .omex-bubble { background: #fff; border-bottom-left-radius: 3px; }
+.omex-msg-out .omex-bubble { background: #dcf8c6; border-bottom-right-radius: 3px; }
+.omex-bubble p { margin: 0; }
+.omex-who { display: block; font-size: .68rem; font-weight: 600; color: #9ca3af; margin-bottom: .15rem; }
+.omex-time { display: block; font-size: .66rem; color: #b0bec5; text-align: right; margin-top: .15rem; }
+.omex-live-actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+.omex-end-wrap { text-align: center; padding: 2.5rem 1rem; }
+.omex-end-icon { font-size: 3rem; margin-bottom: 1rem; }
+.omex-end-wrap h3 { margin: 0 0 .5rem; }
+.omex-end-wrap p { color: #6b7280; margin-bottom: 1.5rem; }
+.omex-end-wrap .omex-btn { margin: .3rem; }
+@media (max-width: 480px) {
+  .omex-qr-wrap { flex-direction: column; align-items: center; }
+  #omex-qr-img { width: 170px; height: 170px; }
+  .omex-chat { height: 260px; }
+}
