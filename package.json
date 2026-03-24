@@ -1,0 +1,21 @@
+{
+  "name": "omex-demo-railway",
+  "version": "1.0.0",
+  "description": "OMEX WhatsApp Demo - Railway",
+  "main": "demo-server/index.js",
+  "scripts": {
+    "start": "node demo-server/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "openai": "^4.28.0",
+    "qrcode": "^1.5.3",
+    "socket.io": "^4.7.4",
+    "uuid": "^9.0.0",
+    "whatsapp-web.js": "^1.23.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
