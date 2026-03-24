@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: omex-whatsapp-demo
+    env: node
+    plan: free
+    buildCommand: npm install && npx puppeteer browsers install chrome
+    startCommand: node demo-server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DEMO_SECRET
+        sync: false
+      - key: WP_ORIGIN
+        sync: false
+      - key: MAX_SESSIONS
+        value: "2"
+      - key: DEMO_TTL_MIN
+        value: "30"
+      - key: PUPPETEER_CACHE_DIR
+        value: /opt/render/project/.cache/puppeteer
