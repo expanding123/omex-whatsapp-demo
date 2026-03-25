@@ -40,16 +40,40 @@ app.post('/demo/create', authMiddleware, async (req, res) => {
     if (!company || !openai_key) return res.status(400).json({ ok: false, error: 'company y openai_key requeridos' });
     const MAX = parseInt(process.env.MAX_SESSIONS || '3');
     if (sessions.count() >= MAX) return res.status(503).json({ ok: false, error: 'Demo lleno, espera un momento.' });
+
     const sessionId = uuidv4();
+    const systemPrompt = buildBasePrompt(company, services);
+
     try {
-        let systemPrompt = buildBasePrompt(company, services);
-        let scanFacts = null;
+        // Crear sesión INMEDIATAMENTE con prompt base (sin esperar el scan)
+        await sessions.create(sessionId, { company, services, site_url, systemPrompt, scanFacts: null, openaiKey: openai_key });
+
+        // Responder de inmediato
+        res.json({ ok: true, session_id: sessionId, scan_facts: null });
+
+        // Escanear en BACKGROUND y actualizar el prompt cuando termine
         if (site_url && site_url.startsWith('http')) {
-            try { const s = new AIScanner(openai_key); scanFacts = await s.scanSite(site_url); systemPrompt = buildPromptFromFacts(company, services, scanFacts); } catch(e) { console.warn('Scan falló:', e.message); }
+            (async () => {
+                try {
+                    const scanner = new AIScanner(openai_key);
+                    const scanFacts = await scanner.scanSite(site_url);
+                    const updatedPrompt = buildPromptFromFacts(company, services, scanFacts);
+                    const session = sessions.get(sessionId);
+                    if (session) {
+                        session.config.systemPrompt = updatedPrompt;
+                        session.config.scanFacts = scanFacts;
+                        io.to('session:' + sessionId).emit('scan_complete', { scan_facts: scanFacts });
+                        console.log('[Demo] Scan completado para', sessionId);
+                    }
+                } catch (e) {
+                    console.warn('[Demo] Scan background fallo:', e.message);
+                }
+            })();
         }
-        await sessions.create(sessionId, { company, services, site_url, systemPrompt, scanFacts, openaiKey: openai_key });
-        res.json({ ok: true, session_id: sessionId, scan_facts: scanFacts });
-    } catch(err) { res.status(500).json({ ok: false, error: err.message }); }
+    } catch (err) {
+        console.error('[Demo] Error en /create:', err);
+        res.status(500).json({ ok: false, error: err.message });
+    }
 });
 
 app.get('/demo/status/:sessionId', authMiddleware, (req, res) => {
@@ -65,7 +89,7 @@ app.post('/demo/destroy/:sessionId', authMiddleware, async (req, res) => {
 
 app.get('/demo/list', authMiddleware, (req, res) => res.json({ ok: true, sessions: sessions.list() }));
 
-app.get('/health', (req, res) => res.json({ ok: true, service: 'omex-demo', sessions: sessions.count(), uptime: Math.floor(process.uptime())+'s', node: process.version }));
+app.get('/health', (req, res) => res.json({ ok: true, service: 'omex-demo', sessions: sessions.count(), uptime: Math.floor(process.uptime()) + 's', node: process.version }));
 
 io.on('connection', (socket) => {
     socket.on('subscribe', ({ session_id }) => {
